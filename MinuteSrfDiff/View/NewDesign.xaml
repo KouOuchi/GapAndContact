@@ -1,0 +1,82 @@
+﻿<Window x:Class="GapCondition.NewDesign"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gap And Contact Condition" Height="501" Width="321"
+        Loaded="NewDesign_OnLoaded"
+        WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" Closed="Window_Closed" Background="{x:Null}" Foreground="White">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"></BooleanToVisibilityConverter>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/ExpressionDark.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <StackPanel Height="468" VerticalAlignment="Top">
+        <DataGrid
+                      AutoGenerateColumns="False"
+                      BorderBrush="Transparent" 
+                      CanUserAddRows="False"
+                      Loaded="Gridview_OnLoaded"
+                      HeadersVisibility="Column"
+                      Name="gridview" 
+                      RowHeight="20"
+                      IsReadOnly="True"
+                      VerticalScrollBarVisibility="Hidden"
+                      HorizontalScrollBarVisibility="Disabled" Margin="10,0,10,0" 
+                      Background="{x:Null}" Height="434" VerticalAlignment="Top"
+                      ItemsSource="{Binding Infos}"
+                >
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent">
+                            </Setter>
+                            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent">
+                            </Setter>
+                            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="51" IsReadOnly="True" Header="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Margin="7,2,0,0" IsChecked="{Binding Status}" Visibility="{Binding Visible}"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="45" IsReadOnly="True" Header="Color">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="55" Margin="10,0,0,0" Fill="{Binding ColorsToDisplay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp"></Rectangle>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Width="100" IsReadOnly="False" Header="Min" Binding="{Binding Path=MinBound, Mode=TwoWay, StringFormat=\{0:0.000\}}" CanUserReorder="False" CanUserSort="False" CanUserResize="False">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Width="100*" IsReadOnly="False" Header="Max" Binding="{Binding Path=MaxBound, Mode=TwoWay, StringFormat=\{0:0.000\}}" CanUserReorder="False" CanUserSort="False" CanUserResize="False">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Save" HorizontalAlignment="Right" Margin="0,5,10,5" VerticalAlignment="Top" Width="75" Click="Button_Click" Visibility="Hidden"/>
+    </StackPanel>
+</Window>
